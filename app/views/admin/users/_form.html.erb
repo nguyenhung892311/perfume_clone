@@ -1,0 +1,109 @@
+<%= form_for [:admin, @client_form], url: @admin_client.present? ? admin_user_path(@admin_client) : admin_users_path, method: @admin_client.present? ? :put : :post, data: { turbo: false } do |f| %>
+  <div class="card card-primary card-tabs box-solid">
+    <div class="card-header p-0 pt-1" style="background-color: #6c757d;"></div>
+    <div class="card-body">
+      <div class="tab-content" id="custom-tabs-one-tabContent">
+        <div class="tab-pane fade show active" id="tab_1">
+          <%= render partial: 'shared/error_messages', locals: { object: @client_form } %>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :name, safe_join([t('admin.users.name'), content_tag(:small, " *", class: "text-danger")]) %><br>
+                <%= f.text_field :name, value: @admin_client&.name, class: "form-control" %>
+              </div>
+              <% unless @admin_client.present? %>
+                <div class="form-group">
+                  <%= f.label :password, safe_join([t('admin.users.password'), content_tag(:small, " *", class: "text-danger")]) %><br>
+                  <%= f.password_field :password, required: true, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :password_confirmation, safe_join([t('admin.users.password_confirmation'), content_tag(:small, " *", class: "text-danger")]) %><br>
+                  <%= f.password_field :password_confirmation, required: true, class: "form-control" %>
+                </div>
+              <% end %>
+              <div class="form-group">
+                <%= f.label :phone %>
+                <%= f.number_field :phone,  value: @admin_client&.phone, class: "form-control" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :email, safe_join([t('admin.users.email'), content_tag(:small, " *", class: "text-danger")]) %>
+                <%= f.text_field :email, value: @admin_client&.email, required: true , class: "form-control" %>
+              </div>
+              <div class="form-group">
+                <img src='<%= f.object.image if f.object.image.present?%>' id="blah" alt="your image" onError="this.onerror=null;this.src='/images/no_image.png'" value="<%= f.object.image if f.object.image.present? %>" width="50" height="50" />
+                <div stype='margin-top: 10px;'>
+                  <%= f.file_field :upload_image, onchange: "document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])"%>
+                </div>
+              </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= f.label :status %><br>
+              <%= f.select :status, [[t('status.active'), :active], [t('status.disable'), :disable]], {}, { class: "form-control" }   %>
+            </div>
+            <div class="form-group">
+              <%= f.label :type %><br>
+              <%= f.select :type, [[t('users.Admin'), 'Admin'], [t('users.Client'), 'Client']], {}, { class: "form-control" }   %>
+            </div>
+            <div class="form-group">
+              <%= f.label :gender %>
+              <%= f.select :gender, [[t('users.male'), :male], [t('users.fermale'), :fermale], [t('users.other'), :other] ], {}, { value: @admin_client&.gender, class: "form-control" }   %>
+            </div>
+            <div class="form-group">
+              <%= f.label :birthday %>
+              <%= f.date_field :birthday, value: @admin_client&.birthday, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :address %>
+              <%= f.text_field :address, value: @admin_client&.address, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="actions">
+          <%= f.submit "Save" , class: "btn btn-sm btn-success" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  tinymce.remove();
+  tinymce.init({
+    selector: '.tinymce',
+    plugins: 'lists link image table code help wordcount'
+  });
+</script>
+<script>
+  let isEventBound = false;
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!isEventBound) {
+      const inputElement = document.querySelector('[data-image-target="input"]');
+      const previewContainer = document.getElementById('image-preview-container');
+
+      inputElement.addEventListener('change', function (event) {
+        const fileList = event.target.files;
+
+        for (let i = 0; i < fileList.length; i++) {
+          const file = fileList[i];
+
+          // Kiểm tra nếu là tệp hình ảnh
+          if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              // Tạo một phần tử img để hiển thị tấm hình
+              const imgElement = document.createElement('img');
+              imgElement.setAttribute('src', event.target.result);
+              imgElement.classList.add('preview-image');
+              // Thêm tấm hình vào preview container
+              previewContainer.appendChild(imgElement);
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      });
+      isEventBound = true;
+    }
+  });
+</script>

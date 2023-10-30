@@ -1,0 +1,11 @@
+vi:
+  permissions:
+    You_do_not_have_permission_to_edit_other_users: Bạn không có quyền chỉnh sửa người dùng khác.
+    You_do_not_have_permission_to_update_other_users: Bạn không có quyền cập nhật người dùng khác.
+  articles:
+    title: Tiêu Đề
+  users:
+    active: Hoạt động
+    inactive: Không hoạt động
+    You do not have permission to edit other users: Bạn không có quyền chỉnh sửa người dùng khác
+

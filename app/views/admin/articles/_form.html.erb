@@ -1,0 +1,104 @@
+<%= form_for [:admin, @article_form], url: @admin_article.present? ? admin_article_path(@admin_article) : admin_articles_path, method: @admin_article.present? ? :put : :post, data: { turbo: false } do |f| %>
+  <div class="card card-primary card-tabs box-solid">
+    <div class="card-header p-0 pt-1" style="background-color: #6c757d;">
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="custom-tabs-one-tabContent">
+        <div class="tab-pane fade show active" id="tab_1">
+          <%= render partial: 'shared/error_messages', locals: { object: @article_form } %>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :title %><br>
+                <%= f.text_field :title, class: "form-control" %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :slug %><br>
+                <%= f.text_field :slug, class: "form-control" %>
+              </div>
+            </div><br>
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :order %>
+                <%= f.number_field :order, class: "form-control" %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :status %><br>
+                <%= f.select :status, [[t('status.active'), 'active'], [t('status.disable'), 'disable']], {}, { class: "form-control" }   %>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= f.label :mini_description %><br>
+                <%= f.text_field :mini_description, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+            <div class="mb-3" data-controller="image" id="Img">
+              <%= f.label :images, class: "form-label"  %>
+              <%= f.file_field :images, multiple: true, class: "form-control", accept: "image/png, image/jpeg, image/jpg", "data-image-target": "input" %>
+              <div id="image-preview-container" style="display: flex; flex-wrap: wrap; width: 75px ;height: 100px;">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= f.label :content %><br>
+                <%= f.text_area :content, class: 'tinymce' %>
+              </div>
+            </div>
+          <br>
+          <div class="actions">
+            <%= f.submit "Save" , class: "btn btn-sm btn-success" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<style>
+.custome-image {
+  max-width: 100%;
+  max-height: 200px;
+}
+</style>
+<script>
+  tinymce.remove();
+  tinymce.init({
+    selector: 'textarea',
+    plugins: 'lists link image table code help wordcount',
+    height : "700",
+  });
+</script>
+<script>
+  let isEventBound = false;
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!isEventBound) {
+      const inputElement = document.querySelector('[data-image-target="input"]');
+      const previewContainer = document.getElementById('image-preview-container');
+
+      inputElement.addEventListener('change', function (event) {
+        const fileList = event.target.files;
+
+        for (let i = 0; i < fileList.length; i++) {
+          const file = fileList[i];
+
+          if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              const imgElement = document.createElement('img');
+              imgElement.setAttribute('src', event.target.result);
+              imgElement.classList.add('preview-image');
+              previewContainer.appendChild(imgElement);
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      });
+      isEventBound = true;
+    }
+  });
+</script>

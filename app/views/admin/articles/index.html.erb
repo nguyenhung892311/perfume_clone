@@ -1,0 +1,48 @@
+<div class="row m-2">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <%= link_to t('button.new', model: t('activerecord.models.article')), new_admin_article_path, class: "card-title btn btn-sm btn-success" %>
+        <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+    </div>
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th><%= t('articles.title') %></th>
+              <th><%= t('articles.order') %></th>
+              <th><%= t('articles.status') %></th>
+              <th><%= t('articles.created_at') %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @admin_articles.each do |admin_article| %>
+            <tr>
+              <td><%= link_to admin_article.title, admin_article_path(admin_article.id) %></td>
+              <td><%= admin_article.order %></td>
+              <td><%= admin_article.decorate.decorate_status %></td>
+              <td><%= admin_article.created_at.strftime('%d-%m-%Y') %></td>
+              <td class="pull-right">
+                <%= link_to t('button.edit'), edit_admin_article_path(admin_article.id), class: "btn-xs btn btn-warning" %>
+              </td>
+              <td class="width60">
+                <%= link_to 'Destroy', admin_article_path(admin_article.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: "btn-xs btn btn-danger" %></td>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

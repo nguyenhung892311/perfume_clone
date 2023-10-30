@@ -1,0 +1,21 @@
+en:
+  permissions:
+    You_do_not_have_permission_to_edit_other_users: You do not have permission to edit other users
+    You_do_not_have_permission_to_update_other_users: You do not have permission to update other users
+  articles:
+    article_listing: Article Listing
+    title: Title
+    status: Status
+    order: Order
+    created_at: Created At
+    active: Active
+    disable: Disable
+    save_article_sucessfully: Article was successfully created
+    update_article_sucessfully: Article was successfully updated
+    title_background: Title Background
+
+  users:
+    active: Active
+    inactive: Inactive
+    update_article_successfully: update article successfully
+

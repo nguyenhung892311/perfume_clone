@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>App</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script type="text/javascript" src=<%= asset_path("landing-page/jquery-3.4.1.min.js") %>></script>
+    <script type="text/javascript" src=<%= asset_path("landing-page/bootstrap.js") %>></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <% if controller_name == 'site' && action_name == 'index' %>
+      <%= stylesheet_link_tag "site/style", "site/responsive", "data-turbo-track": "reload" %>
+    <% end %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<% if notice.present? %>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <%= notice %>
+  </div>
+<% end %>
+<% if alert.present? %>
+  <div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <%= alert %>
+  </div>
+<% end %>
+<style>
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.alert.alert-success .close:hover {
+  color: red;
+}
+</style>

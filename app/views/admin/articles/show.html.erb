@@ -1,0 +1,52 @@
+<div class="admin main content">
+  <%= render '/shared/notice' %>
+  <div class="card box-solid">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <p>
+            <strong><%= t('articles.title') %>:</strong>
+            <%=  @admin_article.title %>
+          </p>
+          <p>
+            <strong><%= t('articles.status') %>:</strong>
+            <%= @admin_article.decorate.decorate_status %>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p>
+            <% if  @admin_article.image.present? %>
+              <%= image_tag( @admin_article.image, size: '200x200') %>
+            <% end %>
+          </p>
+        </div>
+        <div class="col-md-12">
+          <strong><%= I18n.t('.articles.title_background') %>:</strong>
+          <% if @admin_article.images.present? %>
+            <% @admin_article.images.each do |image| %>
+              <%= image_tag(image.url(:thumb)) %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="col-md-12" style="pointer-events: none;">
+          <strong><%= t('articles.content') %>:</strong>
+          <%= text_area_tag 'mini_description', @admin_article.content, class: 'tinymce mini_description-show mt-5' %>
+        </div>
+      </div>
+      <%= link_to t('helpers.action.edit'), edit_admin_article_path(@admin_article), class: "btn btn-warning btn-sm" %>
+      <%= link_to t('views.button.back'), admin_articles_path, class: "btn btn-primary btn-sm" %>
+    </div>
+  </div>
+</div>
+<script>
+  tinymce.remove();
+  tinymce.init({
+    selector: 'textarea',
+    plugins: 'lists link image table code help wordcount',
+    height : "1000",
+    menubar: false,
+    statusbar: false,
+    toolbar: false,
+    readonly : 1
+  });
+</script>
